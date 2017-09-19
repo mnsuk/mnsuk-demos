@@ -7,6 +7,7 @@ const cloudant = Cloudant({ // eslint-disable-line new-cap
   vcapServices: global.appEnv.services,
 });
 const db = cloudant.db.use(config.get('authenticationDB'));
+const auditDB = cloudant.db.use(config.get('auditDB'));
 
 // eslint-disable-next-line no-unused-vars
 const User = module.exports = function(id, fn, ln, pw, tok) {
@@ -53,6 +54,46 @@ module.exports.getById = function(id, cb) {
   });
 };
 
+
+
+module.exports.creatIfNew = function(user, cb) {
+  db.get(user._id, function(err, doc) {
+    if (!err) {
+      logger.debug('XXX doc: ' + JSON.stringify(doc));
+      doc.count = doc.count + 1;
+      doc.lastLogin = new Date();
+      User.update(doc, function(err, doc) {});
+      cb(null, doc);
+    } else {
+      if (err.statusCode === 404) {
+        // user not found
+        logger.debug('XXX No user');
+        user.password = 'w3id';
+        user.count = 1;
+        user.lastLogin = new Date();
+        user.admin = false;
+        user.validated = true;
+        db.insert(user, function(err, body) {
+          if (err) {
+            logger.debug('XXX err: ' + JSON.stringify(err));
+            if (err.statusCode === 409) {
+              err = new Error('That email is already taken');
+            }
+            cb(err);
+          } else {
+            logger.debug('XXX body: ' + JSON.stringify(body));
+            //cb(null, body);  // returns id, rev, ok
+            cb(null, user); // return original user
+          }
+        });
+      } else {
+        logger.debug('XXX 2err: ' + JSON.stringify(err));
+        cb(err);
+      }
+    }
+  });
+};
+
 module.exports.getPublicById = function(id, cb) {
   db.get(id, function(err, doc) {
     if (!err) {
@@ -93,4 +134,31 @@ module.exports.comparePassword = function(candidate, hash, cb) {
         cb(null, isMatch);
       }
     });
+};
+
+module.exports.auditGet = function(id, cb) {
+  logger.debug("User auditGet: " + id);
+  auditDB.get(id, function(err, doc) {
+    if (err) {
+      logger.debug("User auditGet error: " + JSON.stringify(err));
+      return cb(err);
+    }
+    logger.debug("User auditGet ok: " + JSON.stringify(doc));
+    cb(null, doc);
+  })
+}
+
+module.exports.auditUpdate = function(usage, cb) {
+  auditDB.insert(usage, function(err, body) {
+    if (err) {
+      var error = 'something bad happened';
+      if (err.statusCode === 409) {
+        error = 'That app is already taken';
+      }
+      cb(error);
+    } else {
+      usage._rev = body.rev;
+      cb(null, usage);
+    }
+  });
 };

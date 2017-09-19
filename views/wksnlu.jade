@@ -1,0 +1,56 @@
+//- privacy.jade
+extends ./layout.jade
+
+block vars
+  - var title = 'WKS in NLU'
+block main-content
+  div.container.theme-showcase(role="main")
+    div.page-header
+      include ./includes/messages.jade
+    div.row
+      div.col-sm-12.text-center
+        h4.text-center Enter the text or upload the documents you want us to analyze
+    div.row
+      div.col-md-6
+        div.modelSelection
+          | Select model:
+          select.model
+            option
+          span.label.label-warning#nluStatus not connected
+        ul.nav.nav-tabs(role="tablist")
+          li.active(role="presentation") #[a(href="#1" aria-controls="1" role="tab" data-toggle="tab") Text]
+          li(role="presentation") #[a(href="#2" aria-controls="2" role="tab" data-toggle="tab") File]
+        div.tab-content
+          div.tab-pane.active(id="1" role="tabpanel")
+            div.form-group.textarea
+              textarea.form-control#exampleTextarea(rows="20")
+              br
+              button.btn.btn-secondary#analyze(type="button") Analyse text
+          div.tab-pane(id="2" role="tabpanel")
+            div.example-dropzone#example-dropzone
+              div.dz-message.needsclick
+                | Drop files here or click to upload.
+                br
+                a#send-example-demo(style="color:red;") Try an example.
+        div.responseMessage.alert-info
+
+      div.col-md-6
+        div#services
+          ul.nav.nav-tabs(role="tablist")
+            li.active(role="presentation") #[a(href="#5" aria-controls="5" role="tab" data-toggle="tab") Entity Types Extraction]
+            li(role="presentation") #[a(href="#6" aria-controls="6" role="tab" data-toggle="tab") Relations]
+            li(role="presentation") #[a(href="#7" aria-controls="7" role="tab" data-toggle="tab") JSON]
+          div.tab-content
+            div.tab-pane.active(role="tabpanel" id="5")
+              div#app
+                div#results
+            div.tab-pane.relations-tab(role="tabpanel" id="6" style="overflow: auto;")
+              svg(width="1500" height="1500")
+            div.tab-pane.json-tab(role="tabpanel" id="7")
+              div#appJSON
+                div#resultsJSON
+
+    footer.page-footer
+      div.small-print
+        div.container
+          p Copyright &copy; 2017

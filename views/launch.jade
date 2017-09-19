@@ -1,0 +1,124 @@
+//- launch.jade
+extends ./layout.jade
+
+block vars
+  - var title = 'Demo Launcher'
+block main-content
+  div.container.theme-showcase#mnsfade(role="main")
+    script.
+      document.getElementById('mnsfade').className += ' fade-out'
+      var local_data =!{JSON.stringify(user)}
+    div.page-header
+      include ./includes/messages.jade
+    div.row
+      div.col-sm-1(hidden)
+        | the component
+    div.row
+      div.col-sm-3
+        div.panel.panel-default#wks
+          div.text-center.demo-title
+            | #[span(style="font-family: 'OpenSans', 'Helvetica Neue'") #[span(style="font-weight: 300;") IBM ] #[span(style="font-weight: 500;") Watson Knowledge Studio ]]
+          div.text-center.demo-icon
+          div.demo-desc.bg-info
+            | Using custom Watson Knowledge Studio models with the Watson Natural Language Understanding service.
+          div.demo-control(hidden)
+            | control
+          div.text-center.demo-launch-box
+            div.demo-launch
+              a.btn.btn-default.btn-md(href="/auditRedirect?app=wksnlu&route=wksnlu") Go to demo
+
+      div.col-sm-3
+        div.panel.panel-default#conversation
+          div.text-center.demo-title
+            | #[span(style="font-family: 'OpenSans', 'Helvetica Neue'") #[strong() Watson ]  Conversation ]
+          div.demo-icon
+          div.demo-desc.bg-info
+            | Use a chatbot created with Watson Conversation to find out about English Premier League Fixtures and Results.
+          div.demo-control(hidden)
+            | control
+          div.text-center.demo-launch-box
+            div.demo-launch
+              a.btn.btn-default.btn-md(href="/auditRedirect?app=chat&route=chat") Go to demo
+
+      div.col-sm-3
+        div.panel.panel-default#reevoo
+          div.text-center.demo-title
+            | #[span(style="font-family: 'OpenSans', 'Helvetica Neue'; font-weight: 300;") Watson Explorer ]
+          div.demo-icon
+          div.demo-desc.bg-info
+            | Voice of the customer analysis for consumer electronic products
+          div.demo-control.floatingBarsG
+            div.blockG.rotateG_01
+            div.blockG.rotateG_02
+            div.blockG.rotateG_03
+            div.blockG.rotateG_04
+            div.blockG.rotateG_05
+            div.blockG.rotateG_06
+            div.blockG.rotateG_07
+            div.blockG.rotateG_08
+          div.text-center.skyStatus
+            img.light(src='images/traffic_grey_circle.png' )
+            div.skyControls
+              img.play(src='images/player_play_light.png')
+              |  #[&nbsp;]
+              img.pause(src='images/player_pause_light.png')
+          div.text-center.demo-launch-box
+            div.demo-launch.launchControl
+              a.btn.btn-default.btn-md.launch Unavailable
+
+
+      div.col-sm-3
+        div.panel.panel-default#nhtsa
+          div.text-center.demo-title
+            | #[span(style="font-family: 'OpenSans', 'Helvetica Neue'; font-weight: 300;") Watson Explorer ]
+          div.demo-icon
+          div.demo-desc.bg-info
+            | US National Highway Traffic Safety Administration analysis of defects and recall reports.
+          div.demo-control.floatingBarsG
+            div.blockG.rotateG_01
+            div.blockG.rotateG_02
+            div.blockG.rotateG_03
+            div.blockG.rotateG_04
+            div.blockG.rotateG_05
+            div.blockG.rotateG_06
+            div.blockG.rotateG_07
+            div.blockG.rotateG_08
+          div.text-center.skyStatus
+            img.light(src='images/traffic_grey_circle.png' )
+            div.skyControls
+              img.play(src='images/player_play_light.png')
+              |  #[&nbsp;]
+              img.pause(src='images/player_pause_light.png')
+          div.text-center.demo-launch-box
+            div.demo-launch.launchControl
+              a.btn.btn-default.btn-md.launch Unavailable
+
+    div.row
+      div.col-sm-3
+        div.panel.panel-default#gdpr
+          div.text-center.demo-title
+            | #[span(style="font-family: 'ibm-plex-sans', 'OpenSans', 'Helvetica Neue'; font-weight: 400;") IBM Case Manager & Watson Explorer]
+          div.demo-icon
+            h3 GDPR
+          div.demo-desc.bg-info
+            | Using IBM Case Manager and Watson Explorer to respond to GDPR Data Subject Access Requests.
+          div.demo-control.floatingBarsG
+            div.blockG.rotateG_01
+            div.blockG.rotateG_02
+            div.blockG.rotateG_03
+            div.blockG.rotateG_04
+            div.blockG.rotateG_05
+            div.blockG.rotateG_06
+            div.blockG.rotateG_07
+            div.blockG.rotateG_08
+          div.text-center.skyStatus
+            img.light(src='images/traffic_grey_circle.png' )
+            div.skyControls
+              img.play(src='images/player_play_light.png')
+              |  #[&nbsp;]
+              img.pause(src='images/player_pause_light.png')
+          div.text-center.demo-launch-box
+            div.demo-launch.launchControl
+              a.btn.btn-default.btn-md.launch unavailable
+              | &nbsp;
+              a.btn.btn-default.btn-md.launch2 unavailable

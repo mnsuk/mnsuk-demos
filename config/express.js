@@ -3,11 +3,13 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const session = require('client-sessions');
 const csrf = require('csurf');
+const usecsrf = require('../middlewares/usecsrf');
 const cfenv = require('cfenv');
 const config = require('config');
 const passport = require('passport');
 const flash = require('connect-flash');
 const version = config.get('version');
+
 
 module.exports = function(app) {
   // set appEnv as global (including vcap_services) from cf or local as appropriate
@@ -48,7 +50,8 @@ module.exports = function(app) {
     sessionEnv.cookie.domain = '.eu-gb.mybluemix.net';
   }
   app.use(session(sessionEnv));
-  app.use(csrf());
+  //app.use(csrf());
+  app.use(usecsrf);
 
   app.use(express.static(__dirname + '/../public'));
   app.set('view engine', 'jade');

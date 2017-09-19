@@ -3,6 +3,6 @@ applications:
   memory: 256M
   instances: 1
   domain: eu-gb.mybluemix.net
-  name: theimp
-  host: theimp
+  name: mnsuk-demos
+  host: mnsuk-demos
   disk_quota: 1024M

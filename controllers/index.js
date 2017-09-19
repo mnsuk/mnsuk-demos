@@ -3,18 +3,33 @@ const router = express.Router(); // eslint-disable-line new-cap
 const requireAuth = require('../middlewares/requireAuth');
 const config = require('config');
 const logger = require('../lib/logging');
+const getModels = require('../api/api').getModels
+const uploadFileAndExtractEntitiesMW = require('../api/api').uploadFileAndExtractEntitiesMW
+const uploadFileAndExtractEntitiesSampleMW = require('../api/api').uploadFileAndExtractEntitiesSampleMW
+const uploadTextAndExtractEntities = require('../api/api').uploadTextAndExtractEntities
 
 router.get('/', function(req, res) {
   res.render('index');
 });
 
 router.use('/', require('./user'));
+router.use('/skytap', require('./skytap'));
 
-router.get('/chat', function(req, res) {
+router.get('/chat', requireAuth, function(req, res) {
   res.render('chat', {
     csrfToken: req.csrfToken(),
     impsvc: config.get('imp-svc'),
   });
+});
+
+router.get('/launch', requireAuth, function(req, res) {
+  res.render('launch', {
+    csrfToken: req.csrfToken(),
+  });
+});
+
+router.get('/wksnlu', requireAuth, function(req, res) {
+  res.render('wksnlu');
 });
 
 router.get('/privacy', function(req, res) {
@@ -31,28 +46,26 @@ router.get('/help',
     res.render('help');
   });
 
+router.post('/api/models', getModels)
 
-router.get('/debug', requireAuth, function(req, res) {
-  const sessionEnv = {
-    cookieName: 'session',
-    secret: 'gsjdhhslfhflhlkhlfyuiufr',
-  };
-  const session = require('client-sessions');
-  const Cookies = require('cookies');
-  const cookies = new Cookies(req, res);
+//router.post('/api/upload-file-and-extract-entities', upload.single('file'), uploadFileAndExtractEntitiesMW)
+router.post('/api/upload-file-and-extract-entities-sample', uploadFileAndExtractEntitiesSampleMW)
+router.post('/api/upload-text-and-extract-entities', uploadTextAndExtractEntities)
 
-  logger.debug('req.session: ' + JSON.stringify(req.session));
-  logger.debug('req.user: ' + JSON.stringify(req.user));
-  logger.debug('decode: ' + JSON.stringify(session.util.decode(sessionEnv, cookies.get('session'))));
-  //logger.debug('autheintcated: ' + req.isAuthenticated);
+
+
+router.get('/debug', function(req, res) {
+  logger.debug('debug req.session: ' + JSON.stringify(req.session));
+  logger.debug('debug req.user: ' + JSON.stringify(req.user));
+  logger.debug('debug authenticated: ' + req.isAuthenticated());
   res.render('debug', {
     csrfToken: req.csrfToken(),
-    info_msg: ['a sample message', 'another'],
-    warn_msg: ['a sample message', 'another'],
-    success_msg: ['a sample message', 'another'],
-    error_msg: ['a sample message', 'another'],
+    info_msg: ['req.user: ' + JSON.stringify(req.user)],
+    warn_msg: ['req.session: ' + JSON.stringify(req.session)],
+    success_msg: ['authenticated: ' + (req.isAuthenticated() ? 'TRUE' : 'FALSE')],
   });
 });
+
 
 router.get('/fatal', function(req, res) {
   res.render('fatal');

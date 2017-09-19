@@ -1,2 +1,2 @@
-# the-imp
-Watson conversation framework
+# mnsuk-demos
+Launchpad for demos

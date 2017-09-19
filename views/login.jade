@@ -15,10 +15,22 @@ block main-content
       div.form-group &nbsp;
       form.form-horizontal(method='POST')
         div.col-sm-4.col-sm-offset-4
+          p.text-center.
+            Registered users sign in here
           div.form-group
             input.form-control(type="hidden", name="_csrf", value=csrfToken)
+            input.form-control(type="hidden", name="_domain", value="registered")
             input.form-control(type="email", name="email", placeholder="email", required="true")
           div.form-group
             input.form-control(type="password", name="password", placeholder="password", required="true")
           div.form-group.text-center
             button.btn.btn-primary.btn-lg(type="submit") Log in
+      form.form-horizontal(method='POST')
+        div.col-sm-4.col-sm-offset-4
+          p.text-center.
+            IBMers click below to sign in with your
+          div.form-group
+            input.form-control(type="hidden", name="_csrf", value=csrfToken)
+            input.form-control(type="hidden", name="_domain", value="w3id")
+          div.form-group.text-center
+            button.btn.btn-primary.btn-lg#w3login(type="submit") w3id

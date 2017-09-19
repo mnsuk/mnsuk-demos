@@ -1,6 +1,7 @@
 # Passwords and stuff
 config/dev.json
 config/production.json
+cert/*.pem
 
 # Thumbnails
 ._*

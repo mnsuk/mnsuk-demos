@@ -7,20 +7,41 @@ nav.navbar.navbar-default.navbar-fixed-top.affix#siteNav(role='navigation')
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href='/')
+      a.navbar-brand(href='/launch')
         img(src='images/imp.png', height='30', style='display: inline-block')
-        | The Imp
+        | mnsuk
     div.collapse.navbar-collapse#navbar
       ul.nav.navbar-nav.navbar-right
         if locals.user
+          if (path == '/wksnlu')
+            li.dropdown
+              a.dropdown-toggle(href='#', data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false") NLU Service Connection #[span.caret]
+              ul.dropdown-menu#login-dp
+                div.service-credentials-item
+                  li
+                    div.form-group
+                      label(for=username) Username
+                      input.form-control#nluusername(type="username", name="username", value="d8cbc3df-72ab-4e10-80e5-5383b210cb43", required="true")
+                    div.form-group
+                      label(for=password) Password
+                      input.form-control#nlupassword(type="username", name="password", value="ObnDwsOiSafg", required="true")
+                    div.form-group.text-center
+                      button.btn.btn-primary.btn-sm.getModels(type="submit") Connect
+                  li.divider
+                  li
+                    div.model-loading(hidden)
+                    div.service.connected.alert-success(hidden)
+                      | Connected
+                    div.service.notConnected.alert-danger(hidden)
+                      | Not connected
+                    div.responseMessage.alert-info
           li #[a(href='logout') Logout]
-          if (path !== '/chat')
-            li #[a(href='chat') Chat]
           li.dropdown
             a.dropdown-toggle(href='#', data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false") More #[span.caret]
             ul.dropdown-menu(aria-labelledby='about-us')
-              if (path !== '/password')
-                li #[a(href='password') Change password]
+              - if (!user._id.endsWith('ibm.com'))
+                if (path !== '/password')
+                  li #[a(href='password') Change password]
               if (path !== '/privacy')
                 li #[a(href='privacy') Privacy]
               li #[a(href='#') Version #{version}]
