@@ -3,10 +3,16 @@ const router = express.Router(); // eslint-disable-line new-cap
 const requireAuth = require('../middlewares/requireAuth');
 const config = require('config');
 const logger = require('../lib/logging');
-const getModels = require('../api/api').getModels
-const uploadFileAndExtractEntitiesMW = require('../api/api').uploadFileAndExtractEntitiesMW
-const uploadFileAndExtractEntitiesSampleMW = require('../api/api').uploadFileAndExtractEntitiesSampleMW
-const uploadTextAndExtractEntities = require('../api/api').uploadTextAndExtractEntities
+const getModels = require('../api/api').getModels;
+// eslint-disable-next-line max-len
+const uploadFileAndExtractEntitiesMW = require('../api/api').uploadFileAndExtractEntitiesMW; // eslint-disable-line max-len
+const uploadFileAndExtractEntitiesSampleMW = require('../api/api').uploadFileAndExtractEntitiesSampleMW; // eslint-disable-line max-len
+const uploadTextAndExtractEntities = require('../api/api').uploadTextAndExtractEntities; // eslint-disable-line max-len
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage: storage
+});
 
 router.get('/', function(req, res) {
   res.render('index');
@@ -46,13 +52,12 @@ router.get('/help',
     res.render('help');
   });
 
-router.post('/api/models', getModels)
+router.post('/api/models', getModels);
 
-//router.post('/api/upload-file-and-extract-entities', upload.single('file'), uploadFileAndExtractEntitiesMW)
-router.post('/api/upload-file-and-extract-entities-sample', uploadFileAndExtractEntitiesSampleMW)
-router.post('/api/upload-text-and-extract-entities', uploadTextAndExtractEntities)
-
-
+// eslint-disable-next-line max-len
+router.post('/api/upload-file-and-extract-entities', upload.single('file'), uploadFileAndExtractEntitiesMW);
+router.post('/api/upload-file-and-extract-entities-sample', uploadFileAndExtractEntitiesSampleMW); // eslint-disable-line max-len
+router.post('/api/upload-text-and-extract-entities', uploadTextAndExtractEntities);
 
 router.get('/debug', function(req, res) {
   logger.debug('debug req.session: ' + JSON.stringify(req.session));

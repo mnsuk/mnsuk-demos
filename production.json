@@ -1,0 +1,64 @@
+{
+  "version" : "1.3.9",
+  "notes" : {
+    "name": "theimp",
+    "webhook": "https://theimp.eu-gb.mybluemix.net/messenger/theimp05122016",
+    "localtunnel": "NA"
+  },
+  "LOG_LEVEL" : "info",
+  "authenticationDB": "auth",
+  "botmasterDB": "botmaster",
+  "imp-svc": "ws://theimp.eu-gb.mybluemix.net",
+  "masterWorkspace": "3286be9f-a26a-4ea3-be00-2331431eefc3",
+  "mailer" : {
+    "url": "smtps://mnsuk.verify%40gmail.com:czooncukmlhmnlns@smtp.gmail.com",
+    "admin": "martin.saunders@uk.ibm.com"
+  },
+  "messengerSettings" : {
+    "credentials": {
+      "fbAppSecret": "ccd3bb4ffe902146166de6a9f66601d4",
+      "pageToken": "EAADVUgfsZAm8BAAhK2vmcK7ya80VHzdXVLGXr9ZCtkQ0tcWIcQZA5i7v3UXBXZAGTtt4rNupl9UZCuMCZAwqfyG4Hwc6SA7gUpSjNQY3J1wvKaCq1CrRX8C69jqyTASiB0LqkcPipm6hMZAJoZABmhyPXZCne16Jwp1kUmeiKnptm8QZDZD",
+      "verifyToken": "ajsmnsbhw05122016"
+    },
+    "webhookEndpoint": "/theimp05122016/"
+  },
+  "socketioSettings": {
+    "id": "test-bot-svc.socketio"
+  },
+  "football-data": {
+      "token": "6430fcaabaf64f6bbdb3ac9489766078",
+      "url": "http://api.football-data.org"
+  },
+  "google-maps":{
+    "base": "https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyBiRKa360XjgVGLOeQh342J_CrLA9pNOy8&center=",
+    "size": "300",
+    "zoom": "7",
+    "type": "hybrid"
+  },
+  "VCAP_SERVICES": {
+    "cloudantNoSQLDB" : [ {
+      "name" : "ibmwatson-nlc-cloudant",
+      "label" : "cloudantNoSQLDB",
+      "plan" : "Shared",
+      "credentials" : {
+        "username" : "5f0e9d4f-a4f8-4615-b0e6-274b7a964609-bluemix",
+        "password" : "e51f0856e35277b51c19b84fdd244b5bc35331a7c99d59e1c4b7a88fa2ced667",
+        "host" : "5f0e9d4f-a4f8-4615-b0e6-274b7a964609-bluemix.cloudant.com",
+        "port" : 443,
+        "url" : "https://5f0e9d4f-a4f8-4615-b0e6-274b7a964609-bluemix:e51f0856e35277b51c19b84fdd244b5bc35331a7c99d59e1c4b7a88fa2ced667@5f0e9d4f-a4f8-4615-b0e6-274b7a964609-bluemix.cloudant.com"
+      }
+    } ],
+    "conversation": [ {
+         "name": "Conversation",
+         "label": "Conversation",
+         "plan": "free",
+         "credentials": {
+           "url": "https://gateway.watsonplatform.net/conversation/api",
+           "password": "Cv0ZnnV80tch",
+           "username": "9045fa40-d20e-4816-8200-02b8d5a35982",
+           "version": "v1",
+           "version_date": "2016-09-20"
+         }
+    } ]
+  }
+}

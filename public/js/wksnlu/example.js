@@ -6,7 +6,7 @@ graph = {
   }
   /* global Dropzone annotate $ */
   // Only accept .txt, .doc, and .docx
-  /*var acceptFunction = function (file, done) {
+var acceptFunction = function(file, done) {
     if (!file.name.match(/(.*.docx$|.*.txt$)/)) {
       window.alert('Please use a .docx, or .txt file')
       done('badfile')
@@ -15,8 +15,8 @@ graph = {
     }
   }
   // Configure dropzone and add the page element
-  var currentFile = null;
-  var dropzone = new Dropzone('div#example-dropzone', {
+var currentFile = null;
+var dropzone = new Dropzone('div#example-dropzone', {
     url: '/api/upload-file-and-extract-entities',
     clickable: true,
     maxFiles: 1,
@@ -31,42 +31,51 @@ graph = {
     }
   })
   //Handle sending credentials
-  dropzone.on("sending", function(file, xhr, data) {
-    model=$( ".model option:selected" ).text();
-    data.append("username", username);
-    data.append("password", password);
-    data.append("model", model);
-  });
-  // Handle errors in upload
-  dropzone.on('error', function (file, error) {
+dropzone.on("sending", function(file, xhr, data) {
+  if ($(".model option:selected").text() === "Default") {
+    model = "";
+  } else {
+    model = $(".model option:selected").text();
+  }
+  data.append("username", username);
+  data.append("password", password);
+  data.append("model", model);
+});
+// Handle errors in upload
+dropzone.on('error', function(file, error) {
     if (error === 'badfile') {
       return
     }
+    checkErrorConnection(error);
     window.alert('Error uploading ' + file.name)
   })
   // Handle sucessful upload
-  dropzone.on('success', processResponseFromAnnotator)
+dropzone.on('success', processResponseFromAnnotator)
 
-  function sendExampleToAnnotator (filename) {
-    if($( ".model option:selected" ).text() === "Default"){
-          model="";
-        } else {
-          model=$(".model option:selected").text();
-        }
-    $.post(
-      '/api/upload-file-and-extract-entities-sample',
-      {
-        filename: filename,
-        username: username,
-        password: password,
-        model: model
-      },
-      function (data) {
-        processResponseFromAnnotator(filename, data)
-      }
-    )
+function sendExampleToAnnotator(filename) {
+  if ($(".model option:selected").text() === "Default") {
+    model = "";
+  } else {
+    model = $(".model option:selected").text();
   }
-*/
+  console.log("in func: " + model + ' ' + password);
+  $.post(
+    '/api/upload-file-and-extract-entities-sample', {
+      filename: filename,
+      username: username,
+      password: password,
+      model: model
+    },
+    function(data) {
+      console.log("upload response");
+      processResponseFromAnnotator(filename, data)
+    }
+  ).fail(function(err) {
+    alert("Not connected to the NLU service. ")
+    checkErrorConnection(err);
+  })
+};
+
 function processResponseFromAnnotator(file, response) {
   entities = []
   nodes = []
@@ -125,10 +134,24 @@ function processResponseFromAnnotator(file, response) {
 
 // Apply dropzone formatting
 $(document).ready(function() {
-  //$('div#example-dropzone').addClass('dropzone')
-  //$('#send-example-demo').on('click', function() {
-  //sendExampleToAnnotator('demo.txt')
-  //})
+  $('div#example-dropzone').addClass('dropzone')
+  $('.send-example-demo').on('click', function() {
+    const demochoice = $(this).text().toLowerCase();
+    console.log('send example demo: ' + demochoice);
+    if (demochoice && demochoice.length > 4) {
+      switch (demochoice) {
+        case 'traffic':
+          sendExampleToAnnotator('traffic.txt');
+          break;
+        case 'medical':
+          sendExampleToAnnotator('medical.txt');
+          break;
+        case 'general':
+          sendExampleToAnnotator('general.txt');
+          break;
+      }
+    }
+  })
   console.log("MNS example");
 })
 

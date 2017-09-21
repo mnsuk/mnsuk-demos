@@ -51,7 +51,6 @@ var ConversationPanel = (function() {
 
   // Initialize the module
   function init() {
-    console.log("Conv init");
     if (document.location.pathname == '/chat') {
       chatUpdateSetup();
       Api.sendRequest(' ', null);

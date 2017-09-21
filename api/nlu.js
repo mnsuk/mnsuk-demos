@@ -1,3 +1,4 @@
+/* eslint-disable */
 let request = require('request')
   // let envVars = require('../env/env').envVars
 let NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
@@ -75,5 +76,5 @@ function nluModelsPromise(username, password) {
 
 module.exports = {
   nluCustomEntitiesPromise,
-  nluModelsPromise
-}
+  nluModelsPromise,
+};

@@ -7,6 +7,7 @@ block main-content
   div.container.theme-showcase(role="main")
     div.page-header
       include ./includes/messages.jade
+      div.responseMessage.alert-info
     div.row
       div.col-sm-12.text-center
         h4.text-center Enter the text or upload the documents you want us to analyze
@@ -18,21 +19,24 @@ block main-content
             option
           span.label.label-warning#nluStatus not connected
         ul.nav.nav-tabs(role="tablist")
-          li.active(role="presentation") #[a(href="#1" aria-controls="1" role="tab" data-toggle="tab") Text]
-          li(role="presentation") #[a(href="#2" aria-controls="2" role="tab" data-toggle="tab") File]
+          li(role="presentation") #[a(href="#1" aria-controls="1" role="tab" data-toggle="tab") Text]
+          li.active(role="presentation") #[a(href="#2" aria-controls="2" role="tab" data-toggle="tab") File]
         div.tab-content
-          div.tab-pane.active(id="1" role="tabpanel")
+          div.tab-pane(id="1" role="tabpanel")
             div.form-group.textarea
               textarea.form-control#exampleTextarea(rows="20")
               br
               button.btn.btn-secondary#analyze(type="button") Analyse text
-          div.tab-pane(id="2" role="tabpanel")
+          div.tab-pane.active(id="2" role="tabpanel")
             div.example-dropzone#example-dropzone
               div.dz-message.needsclick
                 | Drop files here or click to upload.
                 br
-                a#send-example-demo(style="color:red;") Try an example.
-        div.responseMessage.alert-info
+            | Try an example file:
+            div
+              button.btn.btn-mini.btn-primary.send-example-demo#send-example-traffic traffic
+              button.btn.btn-mini.btn-secondary.send-example-demo#send-example-medical medical
+              button.btn.btn-mini.btn-primary.send-example-demo#send-example-general general
 
       div.col-md-6
         div#services

@@ -11,9 +11,6 @@ $(function() {
   var $appStart = $('.skyControls img.play');
   var $appPause = $('.skyControls img.pause');
   var $appGo = $('a.launch');
-  var $traffic = $('img.light');
-  var $reevoo = $('a#reevoo');
-  var $nhtsa = $('a#nhtsa');
 
   $('.panel').on('click', 'a.launch, a.launch2', function() {
     var myApp = $(this).parentsUntil('.panel').parent().attr('id');
@@ -60,119 +57,112 @@ $(function() {
   });
 
 
-  var state = {
-    clicked: 'unknown',
+  /* var state = {
     reevoo: 'unknown',
     nhtsa: 'unknown',
     gdpr: 'unknown',
-  };
+  }; */
+
+  var state = {};
+
+  var newstate = {};
 
   var skyAllStatus = function() {
-    skyStatus('nhtsa');
-    skyStatus('reevoo');
-    skyStatus('gdpr');
-  }
-
-
-  var skyStatus = function(app) {
-    var $status = $('#' + app + '.panel' + ' img.light');
-    var $start = $('#' + app + '.panel' + ' img.play');
-    var $pause = $('#' + app + '.panel' + ' img.pause');
-    var $button = $('#' + app + '.panel' + ' a.launch');
-    var $button2 = $('#' + app + '.panel' + ' a.launch2');
-    var $progress = $('#' + app + '.panel' + ' .floatingBarsG');
-    if (state.clicked == app) {
-      state.clicked == 'unknown'; // miss a beat on startup
-      return;
+    // console.log('Status: ' + JSON.stringify(state));
+    let page = window.location.pathname;
+    if (page.endsWith("/launch")) {
+      $.get('/skytap/status')
+        .done(function onSuccess(ret) {
+          ret.forEach((env) => {
+            let app = env.id;
+            newstate[app] = env.runstate;
+          });
+        })
+        .fail(function onError(error) {
+          Object.keys(state).forEach((app) => {
+            newstate[app] = 'Err: connection';
+          });
+        })
+        .always(function always() {
+          Object.keys(newstate).forEach((app) => {
+            // console.log(new Date() + ' Doing: ' + app + ' as ' + state[app]);
+            var $status = $('#' + app + '.panel' + ' img.light');
+            var $start = $('#' + app + '.panel' + ' img.play');
+            var $pause = $('#' + app + '.panel' + ' img.pause');
+            var $button = $('#' + app + '.panel' + ' a.launch');
+            var $button2 = $('#' + app + '.panel' + ' a.launch2');
+            var $progress = $('#' + app + '.panel' + ' .floatingBarsG');
+            let ns = newstate[app];
+            switch (ns) {
+              case 'suspended':
+                if (ns != state[app]) {
+                  $status.attr("src", "images/traffic_red_circle.png")
+                  $start.attr("src", "images/player_play_normal.png")
+                  $pause.attr("src", "images/player_pause_light.png")
+                  $progress.css("visibility", "hidden");
+                  $button.text(ns)
+                  if ($button2.length)
+                    $button2.text(ns);
+                  state[app] = ns;
+                }
+                break;
+              case 'running':
+                if (ns != state[app]) {
+                  // console.log(app + ' needs update to ' + ns);
+                  $status.attr("src", "images/traffic_green_circle.png")
+                  $start.attr("src", "images/player_play_light.png")
+                  $pause.attr("src", "images/player_pause_normal.png")
+                  $progress.css("visibility", "hidden");
+                  if ($button2.length) {
+                    $button.text('Open WEX')
+                    $button2.text('Open CM')
+                  } else {
+                    $button.text('Open demo')
+                  }
+                  state[app] = ns;
+                }
+                break;
+              case 'stopped':
+                if (ns != state[app]) {
+                  // console.log(app + ' needs update to ' + ns);
+                  $status.attr("src", "images/traffic_red_circle.png")
+                  $start.attr("src", "images/player_play_normal.png")
+                  $pause.attr("src", "images/player_pause_light.png")
+                  $progress.css("visibility", "hidden");
+                  $button.text(ns);
+                  if ($button2.length)
+                    $button2.text(ns);
+                  state[app] = ns;
+                }
+                break;
+              case 'busy':
+                if (ns != state[app]) {
+                  // console.log(app + ' needs update to ' + ns);
+                  $status.attr("src", "images/traffic_orange_circle.png")
+                  $start.attr("src", "images/player_play_light.png")
+                  $pause.attr("src", "images/player_pause_light.png")
+                  $progress.css("visibility", "visible");
+                  $button.text(ns)
+                  if ($button2.length)
+                    $button2.text(ns);
+                  state[app] = ns;
+                }
+                break;
+              default:
+                if (ns != state[app]) {
+                  $status.attr("src", "images/traffic_grey_circle.png")
+                  $start.attr("src", "images/player_play_light.png")
+                  $pause.attr("src", "images/player_pause_light.png")
+                  $progress.css("visibility", "hidden");
+                  $button.text(ns);
+                  if ($button2.length)
+                    $button2.text(ns);
+                  state[app] = ns;
+                }
+            }
+          });
+        });
     }
-    $.get('/skytap/status/' + app)
-      .done(function onSucess(ret) {
-        let switchCode = '';
-        if (ret.startsWith('Err:'))
-          switchCode = 'error';
-        else {
-          switchCode = ret;
-        }
-        switch (switchCode) {
-          case 'suspended':
-            if (state[app] != switchCode) {
-              $status.attr("src", "images/traffic_red_circle.png")
-              $start.attr("src", "images/player_play_normal.png")
-              $pause.attr("src", "images/player_pause_light.png")
-              $progress.css("visibility", "hidden");
-              $button.text(ret)
-              if ($button2.length)
-                $button2.text(ret);
-              state[app] = switchCode;
-            }
-            break;
-          case 'running':
-            if (state[app] != switchCode) {
-              $status.attr("src", "images/traffic_green_circle.png")
-              $start.attr("src", "images/player_play_light.png")
-              $pause.attr("src", "images/player_pause_normal.png")
-              $progress.css("visibility", "hidden");
-              if ($button2.length) {
-                $button.text('Open WEX')
-                $button2.text('Open CM')
-              } else {
-                $button.text('Open demo')
-              }
-              state[app] = switchCode;
-            }
-            break;
-          case 'stopped':
-            if (state[app] != switchCode) {
-              $status.attr("src", "images/traffic_red_circle.png")
-              $start.attr("src", "images/player_play_normal.png")
-              $pause.attr("src", "images/player_pause_light.png")
-              $progress.css("visibility", "hidden");
-              $button.text(ret);
-              if ($button2.length)
-                $button2.text(ret);
-              state[app] = switchCode;
-            }
-            break;
-          case 'busy':
-            if (state[app] != switchCode) {
-              $status.attr("src", "images/traffic_orange_circle.png")
-              $start.attr("src", "images/player_play_light.png")
-              $pause.attr("src", "images/player_pause_light.png")
-              $progress.css("visibility", "visible");
-              $button.text(ret)
-              if ($button2.length)
-                $button2.text(ret);
-              state[app] = switchCode;
-            }
-            break;
-          case 'error':
-            $status.attr("src", "images/traffic_grey_circle.png")
-            $start.attr("src", "images/player_play_light.png")
-            $pause.attr("src", "images/player_pause_light.png")
-            $progress.css("visibility", "hidden");
-            $button.text(ret)
-            if ($button2.length)
-              $button2.text(ret);
-            state[app] = 'unknown';
-            break;
-          default:
-            $status.attr("src", "images/traffic_grey_circle.png")
-            $start.attr("src", "images/player_play_light.png")
-            $pause.attr("src", "images/player_pause_light.png")
-            $progress.css("visibility", "hidden");
-            $button.text('unknown');
-            if ($button2.length)
-              $button2.text(ret);
-            state[app] = 'unknown';
-        }
-      })
-      .fail(function onError(error) {
-        $status.attr("src", "images/traffic_grey_circle.png")
-        $start.attr("src", "images/player_play_light.png")
-        $pause.attr("src", "images/player_pause_light.png")
-        state[app] = 'unknown';
-      })
-      .always(function always() {});
   };
 
   $appPause.on('mouseover', function() {
@@ -223,10 +213,10 @@ $(function() {
           $status.attr("src", "images/traffic_orange_circle.png")
           $start.attr("src", "images/player_play_light.png")
           $pause.attr("src", "images/player_pause_light.png")
+          state[myApp] == 'busy';
           $button.text('busy')
           if ($button2.length)
             $button2.text('busy');
-          //skyStatus(myApp);
         });
     }
   });
@@ -237,7 +227,6 @@ $(function() {
       $start.attr("src", "images/player_play_pressed.png");
       var $progress = $('#' + myApp + '.panel' + '.floatingBarsG');
       $progress.css("visibility", "visible");
-      state.clicked = myApp;
       $.get('/skytap/start/' + myApp)
         .done(function onSucess(ret) {})
         .fail(function onError(error) {})
@@ -250,16 +239,16 @@ $(function() {
           $status.attr("src", "images/traffic_orange_circle.png")
           $start.attr("src", "images/player_play_light.png")
           $pause.attr("src", "images/player_pause_light.png")
+          state[myApp] == 'busy';
           $button.text('busy')
           if ($button2.length)
             $button2.text('busy');
-          // skyStatus(myApp);
         });
     }
   });
 
   skyAllStatus();
-  setInterval(skyAllStatus, 3000);
+  setInterval(skyAllStatus, 2500); // poll every 2.5 seconds
   ConversationPanel.init();
 });
 

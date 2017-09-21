@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const session = require('client-sessions');
-const csrf = require('csurf');
+// const csrf = require('csurf');
 const usecsrf = require('../middlewares/usecsrf');
 const cfenv = require('cfenv');
 const config = require('config');
@@ -50,7 +50,7 @@ module.exports = function(app) {
     sessionEnv.cookie.domain = '.eu-gb.mybluemix.net';
   }
   app.use(session(sessionEnv));
-  //app.use(csrf());
+  // app.use(csrf()); // new middleware selectively disables it.
   app.use(usecsrf);
 
   app.use(express.static(__dirname + '/../public'));

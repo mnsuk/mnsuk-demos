@@ -2,7 +2,7 @@ const csrf = require('csurf');
 module.exports = function(req, res, next) {
 
   var csrfEnabled = true;
-  var whiteList = new Array('/assert', '/api/models', '/api/upload-text-and-extract-entities');
+  var whiteList = new Array('/assert', '/api/models', '/api/upload-text-and-extract-entities', '/api/upload-file-and-extract-entities-sample', '/api/upload-file-and-extract-entities');
   if (whiteList.indexOf(req.path) != -1) {
     csrfEnabled = false;
   }

@@ -2,6 +2,7 @@
 const fd = require('../../lib/football-data');
 const _ = require('lodash');
 const Promise = require('bluebird');
+const logger = require('../../lib/logging');
 
 module.exports = {
   controller: function(params, cb) {
@@ -14,9 +15,9 @@ module.exports = {
         });
         const ws = params.context.current.workspace_id;
         const context = params.context.contexts[ws];
-        context.app.Season = res1.teams[idx].currentSoccerseason;
+        context.app.Season = res1.teams[idx].currentCompetition;
         context.app.League = res1.teams[idx].currentLeague;
-        let b = fd.getCompetitionById(res1.teams[idx].currentSoccerseason);
+        let b = fd.getCompetitionById(res1.teams[idx].currentCompetition);
         let c = fd.getTeamById(res1.teams[idx].id);
         return Promise.join(b, c, function(resultB, resultC) {
           return {

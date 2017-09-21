@@ -212,6 +212,10 @@ padding-left: 8px;
 margin-left: 5px;
 }
 
+.example-dropzone{
+  color:black;
+}
+
 .entityType0 {
   background: orange;
   color: white;
@@ -643,11 +647,22 @@ fieldset[disabled] .btn-default.active {
     transition: all .35s;
 }
 
+.btn-secondary {
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    transition: all .35s;
+}
+
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary.focus,
 .btn-primary:active,
 .btn-primary.active,
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary.focus,
+.btn-secondary:active,
+.btn-secondary.active,
 .open > .dropdown-toggle.btn-primary {
     border-color: #2C7982;
     color: #fff;

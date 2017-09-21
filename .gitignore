@@ -16,6 +16,7 @@ Thumbs.db
 *~
 .eslintrc.json
 .cfignore
+package-lock.json
 
 # Logs
 logs

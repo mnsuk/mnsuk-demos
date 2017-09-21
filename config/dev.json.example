@@ -6,13 +6,29 @@
   "localtunnel": "lt -p 4000 -s theimpdev1"
 },
 "LOG_LEVEL" : "debug",
+"disbableRegistrations" : true,
 "authenticationDB": "xxxx-dev",
+"auditDB": "xxxx-dev",
 "botmasterDB": "xxxx-dev",
 "imp-svc": "ws://localhost:4000",
 "masterWorkspace": "xxxx-xxxx-xxxxx",
 "mailer" : {
     "url": "smtps://xxx%40gmail.com:xxxx@smtp.gmail.com",
     "admin": "anon"@anon.com"
+  },
+  "skytap" : {
+    "credentials" : {
+    "username" : "xxxxxxx",
+    "password" : "xxxxxxx" },
+    "reevoo" : "nnnnn",
+    "nhtsa" : "nnnnn",
+    "case" : "nnnnn"
+  },
+  "cside" : {
+    "credentials" : {
+    "username" : "xxxxxxx",
+    "password" : "xxxxxxx" },
+    "gdpr" : { "env": "nnnnn", "vms": ["nnnnn", "nnnnn"] }
   },
   "messengerSettings" : {
     "credentials": {
