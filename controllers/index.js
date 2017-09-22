@@ -3,6 +3,7 @@ const router = express.Router(); // eslint-disable-line new-cap
 const requireAuth = require('../middlewares/requireAuth');
 const config = require('config');
 const logger = require('../lib/logging');
+const _ = require('lodash');
 const getModels = require('../api/api').getModels;
 // eslint-disable-next-line max-len
 const uploadFileAndExtractEntitiesMW = require('../api/api').uploadFileAndExtractEntitiesMW; // eslint-disable-line max-len
@@ -11,7 +12,7 @@ const uploadTextAndExtractEntities = require('../api/api').uploadTextAndExtractE
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({
-  storage: storage
+  storage: storage,
 });
 
 router.get('/', function(req, res) {
@@ -28,9 +29,20 @@ router.get('/chat', requireAuth, function(req, res) {
   });
 });
 
+//const targets = _.extend(config.get('skytap.watson.envs'), config.get('skytap.cside.envs'));
+const targets = [];
+config.get('skytap.cside.envs').forEach((entry) => {
+  targets.push(entry);
+});
+config.get('skytap.watson.envs').forEach((entry) => {
+  targets.push(entry);
+});
+
+logger.debug('targets:' + targets.length + ' ' + JSON.stringify(targets));
 router.get('/launch', requireAuth, function(req, res) {
   res.render('launch', {
     csrfToken: req.csrfToken(),
+    targets: targets,
   });
 });
 

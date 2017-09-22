@@ -39,23 +39,27 @@ const _envStatus = function _envStatus() {
     this.setEnvStatus = function(id, state) {
       let idx = _envs.findIndex((o) => o.id === id);
       let entry = _envs[idx];
-      logger.debug('setting ' + entry.id + ' to ' + state);
+      // logger.debug('setting ' + entry.id + ' to ' + state);
       entry.runstate = state;
       entry.update = Date.now();
       _envs[idx] = entry;
     };
     this.load = function() {
       watsonStApps.forEach((entry) => {
-        entry.site = 'w';
-        entry.runstate = 'unknown';
-        entry.update = Date.now() - 60 * 1000; // make it a minute old
-        _envs.push(entry);
+        let ne = _.clone(entry);
+        delete ne.urls;
+        ne.site = 'w';
+        ne.runstate = 'unknown';
+        ne.update = Date.now() - 60 * 1000; // make it a minute old
+        _envs.push(ne);
       });
       csideStApps.forEach((entry) => {
-        entry.site = 'c';
-        entry.runstate = 'unknown';
-        entry.update = Date.now() - 60 * 1000; // make it a minute old
-        _envs.push(entry);
+        let ne = _.clone(entry);
+        delete ne.urls;
+        ne.site = 'c';
+        ne.runstate = 'unknown';
+        ne.update = Date.now() - 60 * 1000; // make it a minute old
+        _envs.push(ne);
       });
     };
   };
@@ -67,7 +71,7 @@ const _envStatus = function _envStatus() {
 let envStatus = _envStatus();
 
 router.get('/status', function(req, res) {
-  logger.debug('Get Status');
+  // logger.debug('Get Status');
   let allEnvs = envStatus.getEnvs();
   allEnvs.forEach((e) => {
     const now = Date.now();
@@ -83,9 +87,9 @@ router.get('/status', function(req, res) {
       numVms = e.vms.length;
     }
     if (e.site === 'w') {
-      logger.debug('watsonSt call: ' + e.id);
+      // logger.debug('watsonSt call: ' + e.id);
       watsonSt.environments.get(params, function(err, env) {
-        logger.debug('watsonSt Response.' + e.id);
+        // logger.debug('watsonSt Response.' + e.id);
         if (err) {
           logger.warn('Skytap Watson error: ' + JSON.stringify(err));
           envStatus.setEnvStatus(e.id, 'unknown');
@@ -99,9 +103,9 @@ router.get('/status', function(req, res) {
       });
     }
     if (e.site === 'c') {
-      logger.debug('csideSt call: ' + e.id);
+      // logger.debug('csideSt call: ' + e.id);
       csideSt.environments.get(params, function(err, env) {
-        logger.debug('csideSt Response: ' + e.id);
+        // logger.debug('csideSt Response: ' + e.id);
         if (err) {
           logger.warn('Skytap CSIDE error: ' + JSON.stringify(err));
           envStatus.setEnvStatus(e.id, 'unknown');
@@ -150,11 +154,11 @@ let calcEnvStatus = function(myEnv, numVMs, envRes) {
 
 
 router.get('/start/:skyApp', requireAuth, function(req, res) {
-  logger.debug('start' + req.params.skyApp);
+  // logger.debug('start' + req.params.skyApp);
   if (req.user.admin == true || req.user._id.substr(req.user._id.length - 8) == '.ibm.com') {
     const myApp = envStatus.getEnv(req.params.skyApp);
     if (!_.isNil(myApp)) {
-      logger.debug('start ' + myApp.id + '@' + myApp.env);
+      // logger.debug('start ' + myApp.id + '@' + myApp.env);
       let params = {
         configuration_id: myApp.env,
       };
@@ -192,11 +196,11 @@ router.get('/start/:skyApp', requireAuth, function(req, res) {
 });
 
 router.get('/pause/:skyApp', requireAuth, function(req, res) {
-  logger.debug('start' + req.params.skyApp);
+  // logger.debug('start' + req.params.skyApp);
   if (req.user.admin == true || req.user._id.substr(req.user._id.length - 8) == '.ibm.com') {
     const myApp = envStatus.getEnv(req.params.skyApp);
     if (!_.isNil(myApp)) {
-      logger.debug('start ' + myApp.id + '@' + myApp.env);
+      // logger.debug('start ' + myApp.id + '@' + myApp.env);
       let params = {
         configuration_id: myApp.env,
       };

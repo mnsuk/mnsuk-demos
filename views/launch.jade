@@ -8,6 +8,7 @@ block main-content
     script.
       document.getElementById('mnsfade').className += ' fade-out'
       var local_data =!{JSON.stringify(user)}
+      var targets = !{JSON.stringify(targets)}
     div.page-header
       include ./includes/messages.jade
     div.row
@@ -66,7 +67,6 @@ block main-content
             div.demo-launch.launchControl
               a.btn.btn-default.btn-md.launch Unavailable
 
-
       div.col-sm-3
         div.panel.panel-default#nhtsa
           div.text-center.demo-title
@@ -102,6 +102,60 @@ block main-content
             h3 GDPR
           div.demo-desc.bg-info
             | Using IBM Case Manager and Watson Explorer to respond to GDPR Data Subject Access Requests.
+          div.demo-control.floatingBarsG
+            div.blockG.rotateG_01
+            div.blockG.rotateG_02
+            div.blockG.rotateG_03
+            div.blockG.rotateG_04
+            div.blockG.rotateG_05
+            div.blockG.rotateG_06
+            div.blockG.rotateG_07
+            div.blockG.rotateG_08
+          div.text-center.skyStatus
+            img.light(src='images/traffic_grey_circle.png' )
+            div.skyControls
+              img.play(src='images/player_play_light.png')
+              |  #[&nbsp;]
+              img.pause(src='images/player_pause_light.png')
+          div.text-center.demo-launch-box
+            div.demo-launch.launchControl
+              a.btn.btn-default.btn-md.launch unavailable
+              | &nbsp;
+              a.btn.btn-default.btn-md.launch2 unavailable
+
+      div.col-sm-3
+        div.panel.panel-default#volvo
+          div.text-center.demo-title
+            | #[span(style="font-family: 'OpenSans', 'Helvetica Neue'; font-weight: 300;") Watson Explorer ]
+          div.demo-icon
+          div.demo-desc.bg-info
+            | Watson Explorer provides 360#[sup() o] view for sales account management at an organisation leasing trucks.
+          div.demo-control.floatingBarsG
+            div.blockG.rotateG_01
+            div.blockG.rotateG_02
+            div.blockG.rotateG_03
+            div.blockG.rotateG_04
+            div.blockG.rotateG_05
+            div.blockG.rotateG_06
+            div.blockG.rotateG_07
+            div.blockG.rotateG_08
+          div.text-center.skyStatus
+            img.light(src='images/traffic_grey_circle.png' )
+            div.skyControls
+              img.play(src='images/player_play_light.png')
+              |  #[&nbsp;]
+              img.pause(src='images/player_pause_light.png')
+          div.text-center.demo-launch-box
+            div.demo-launch.launchControl
+              a.btn.btn-default.btn-md.launch unavailable
+
+      div.col-sm-3
+        div.panel.panel-default#case
+          div.text-center.demo-title
+            | #[span(style="font-family: 'ibm-plex-sans', 'OpenSans', 'Helvetica Neue'; font-weight: 400;") IBM Case Manager & Watson Explorer]
+          div.demo-icon
+          div.demo-desc.bg-info
+            | A demo showing a call centre agent handling a change to a customer's car insurance. Shows real-time bi-directional integration between Wex and CM.
           div.demo-control.floatingBarsG
             div.blockG.rotateG_01
             div.blockG.rotateG_02

@@ -90,13 +90,13 @@ header {
   padding: 5px
 }
 
-#reevoo.panel .demo-title, #nhtsa.panel .demo-title {
+#reevoo.panel .demo-title, #nhtsa.panel .demo-title, #volvo.panel .demo-title {
   color: white;
   background-color: #3b6caa;
   padding: 5px
 }
 
-#gdpr.panel .demo-title {
+#gdpr.panel .demo-title,  #case.panel .demo-title,{
   color: yellow;
   background-color: black;
   padding: 5px
@@ -160,6 +160,25 @@ header {
   background-position: center;
 }
 
+#volvo.panel .demo-icon {
+  background-color: #3b6caa;
+  background-image: url("/images/truck.jpg");
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 5px;
+  margin: 0px;
+}
+
+#case.panel .demo-icon {
+  background-image: url("/images/Flexrate.png");
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 5px;
+}
 .demo-desc {
   padding: 8px
 }

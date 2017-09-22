@@ -14,10 +14,17 @@ $(function() {
 
   $('.panel').on('click', 'a.launch, a.launch2', function() {
     var myApp = $(this).parentsUntil('.panel').parent().attr('id');
+    let targetUrl = '#';
+    if ($(this).hasClass('launch2'))
+      targetUrl = targets.find((o) => o.id === myApp).urls[1];
+    else
+      targetUrl = targets.find((o) => o.id === myApp).urls[0];
+
     if (state[myApp] == 'running') {
-      targetUrl = '';
+      /*targetUrl = '';
       switch (myApp) {
         case 'reevoo':
+          targets.find((o) => o.id==='reevoo').urls[0]
           targetUrl = 'http://services-emea.skytap.com:10098/ui/analytics/cereevoo';
           break;
         case 'nhtsa':
@@ -31,7 +38,7 @@ $(function() {
           break;
         default:
           targetUrl = '#';
-      }
+      }*/
       var win = window.open(targetUrl, '_blank');
       if (win) {
         win.focus();

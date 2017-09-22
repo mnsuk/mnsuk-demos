@@ -1,5 +1,5 @@
 {
-"version" : "1.3.1",
+"version" : "1.0.0",
 "notes" : {
   "name": "theimp-dev1",
   "webhook": "https://theimpdev1.localtunnel.me/messenger/theimp05122016",
@@ -16,19 +16,24 @@
     "url": "smtps://xxx%40gmail.com:xxxx@smtp.gmail.com",
     "admin": "anon"@anon.com"
   },
-  "skytap" : {
+"skytap" : {
+  "watson" : {
     "credentials" : {
     "username" : "xxxxxxx",
     "password" : "xxxxxxx" },
-    "reevoo" : "nnnnn",
-    "nhtsa" : "nnnnn",
-    "case" : "nnnnn"
+    "envs" : [
+      {"id": "reevoo", "env": "8085928", "urls": ["http://services.xxx.com:nnnnn/ui/analytics/cereevoo"]},
+      {"id": "nhtsa", "env": "8085928", "urls": ["http://services.xxx.com:nnnnn/ui/analytics/default?facetedCollection=aNHTSA"]},
+      {"id": "volvo", "env": "21413024", "vms": ["21543296"], "urls": ["http://services.xxx.com:nnnnn/AppBuilder/"]},
+      {"id": "case", "env": "16205748",  "urls": ["http://services.xxx.com:nnnnn/AppBuilder", "http://nnn.nnn.nnn.nnn:9080/navigator/?desktop=xxxxx"] }]
   },
   "cside" : {
     "credentials" : {
     "username" : "xxxxxxx",
     "password" : "xxxxxxx" },
-    "gdpr" : { "env": "nnnnn", "vms": ["nnnnn", "nnnnn"] }
+    "gdpr" : { "env": "nnnnn", "vms": ["nnnnn", "nnnnn"] },
+    "envs" : [ {"id": "gdpr", "env": "nnnnn", "vms": ["nnnnn", "nnnnn"], "urls": ["http://services.xxx.com:nnnnn/AppBuilder/", "https://services.xxx.com:nnnnn/navigator/?desktop=XXXX"] }]
+    }
   },
   "messengerSettings" : {
     "credentials": {
